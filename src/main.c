@@ -1,31 +1,64 @@
 #include "../include/game.h"
 
-void	initWindow(void)
+const char* WIN_TITLE = "VulkanTest";
+const uint32_t WIN_WIDTH = 800;
+const uint32_t WIN_HEIGHT = 600;
+
+void	createInstance(t_app *app)
 {
-	ft_putstr("Window initialization\n");
+	VkApplicationInfo appInfo = {
+	.sType = VK_STRUCTURE_TYPE_APPLICATION_INFO,
+	.pApplicationName = "Hello Triangle",
+	.applicationVersion = VK_MAKE_VERSION(1, 0, 0),
+	.pEngineName = "No Engine",
+	.engineVersion = VK_MAKE_VERSION(1, 0, 0),
+	.apiVersion = VK_API_VERSION_1_0,
+	.pNext = NULL
+	};
+
+	VkInstanceCreateInfo createInfo{
+	.sType = VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO,
+	.pApplicationInfo = &appInfo
+	};
+
 }
 
-void	initVulkan(void)
+void	initWindow(t_app *app)
 {
-	ft_putstr("vulkan initialization\n");
+	glfwInit();
+	glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
+	glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE);
+	app->window = glfwCreateWindow(WIN_WIDTH, WIN_HEIGHT, WIN_TITLE, NULL, NULL);
 }
 
-void	mainLoop(void)
+void	initVulkan(t_app *app)
 {
-	ft_putstr("Main Loop\n");
+	createInstance(app);
 }
 
-void	cleanup(void)
+void	mainLoop(t_app *app)
 {
-	ft_putstr("Cleanup\n");
+	while (!glfwWindowShouldClose(app->window))
+	{
+		glfwPollEvents();
+	}
+}
+
+void	cleanup(t_app *app)
+{
+	glfwDestroyWindow(app->window);
+
+	glfwTerminate();
 }
 
 int	main(void)
 {
+	t_app app = {0};
+
 	ft_putstr("Hello World!\n");
-	initWindow();
-	initVulkan();
-	mainLoop();
-	cleanup();
+	initWindow(&app);
+	initVulkan(&app);
+	mainLoop(&app);
+	cleanup(&app);
 	return (0);
 }

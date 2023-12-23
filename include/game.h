@@ -4,11 +4,18 @@
 #include <unistd.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 #include <vulkan/vulkan.h>
 
 #define GLFW_INCLUDE_VULKAN
 #include <GLFW/glfw3.h>
+
+typedef struct s_app
+{
+	GLFWwindow *window;
+	VkInstance instance;
+}	t_app;
 
 /* PUT FUNCTIONS */
 
